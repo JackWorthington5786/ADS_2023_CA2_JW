@@ -10,4 +10,5 @@ namespace std
         static string Read(string file_name);
     
     };
+
 }
