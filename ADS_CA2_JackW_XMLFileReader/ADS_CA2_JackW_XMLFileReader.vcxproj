@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Main.h" />
     <ClInclude Include="Stack\MyStack.h" />
     <ClInclude Include="Tree\DList.h" />
     <ClInclude Include="Tree\DListIterator.h" />
@@ -135,6 +136,7 @@
     <ClInclude Include="Tree\TreeIterator.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Main.cpp" />
     <ClCompile Include="Stack\StacksandQueues.cpp" />
     <ClCompile Include="Tree\Trees.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
@@ -210,6 +212,9 @@
       <SDLCheck>true</SDLCheck>
       <LinkCompiled>true</LinkCompiled>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Files\vs_sample_simple.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

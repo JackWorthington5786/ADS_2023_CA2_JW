@@ -1,96 +1,101 @@
 #pragma once
-template <class T>
-class MyStack
-{
-	T* data;
-	int capacity;
-	int topNum;
-public:
-	MyStack(int i=50);
-	bool push(T item);
-	T top();
-	void pop();
-	int size();
-	bool isEmpty();
-	void clear();
-	void print();
-	~MyStack();
-};
+#include <iostream>
 
-template <class T>
-void MyStack<T>::print()
+namespace std
 {
-	for (int i = 0; i < topNum; i++)
+	template <class T>
+	class MyStack
 	{
-		if (i != 0)
+		T* data;
+		int capacity;
+		int topNum;
+	public:
+		MyStack(int i=50);
+		bool push(T item);
+		T top();
+		void pop();
+		int size();
+		bool isEmpty();
+		void clear();
+		void print();
+		~MyStack();
+	};
+
+	template <class T>
+	void MyStack<T>::print()
+	{
+		for (int i = 0; i < topNum; i++)
 		{
-			cout << ", ";
+			if (i != 0)
+			{
+				cout << ", ";
+			}
+			cout << data[i];
 		}
-		cout << data[i];
+		cout << endl;
 	}
-	cout << endl;
-}
-template <class T>
-MyStack<T>::MyStack(int i)
-{
-	data = new T[i];
-	capacity = i;
-	topNum = 0;
-}
-
-template <class T>
-MyStack<T>::~MyStack()
-{
-	topNum = 0;
-	capacity = 0;
-	delete[] data;
-}
-
-template <class T>
-void MyStack<T>::clear()
-{
-	topNum = 0;
-}
-
-template <class T>
-bool MyStack<T>::push(T item)
-{
-	if (topNum != capacity)
+	template <class T>
+	MyStack<T>::MyStack(int i)
 	{
-		data[topNum] = item;
-		topNum++;
-		return true;
+		data = new T[i];
+		capacity = i;
+		topNum = 0;
 	}
-	return false;
-}
 
-template <class  T>
-T  MyStack<T>::top()
-{
-	if (topNum > 0)
+	template <class T>
+	MyStack<T>::~MyStack()
 	{
-		return data[topNum - 1];
+		topNum = 0;
+		capacity = 0;
+		delete[] data;
 	}
-	return 0;
-}
 
-template <class  T>
-void  MyStack<T>::pop()
-{
-	if (topNum > 0)
+	template <class T>
+	void MyStack<T>::clear()
 	{
-		topNum--;
+		topNum = 0;
 	}
-}
 
-template <class T>
-int MyStack<T>::size()
-{
-	return topNum;
-}
+	template <class T>
+	bool MyStack<T>::push(T item)
+	{
+		if (topNum != capacity)
+		{
+			data[topNum] = item;
+			topNum++;
+			return true;
+		}
+		return false;
+	}
 
-template <class T>
-bool MyStack<T>::isEmpty()
-{
-	return topNum == 0;
+	template <class  T>
+	T  MyStack<T>::top()
+	{
+		if (topNum > 0)
+		{
+			return data[topNum - 1];
+		}
+		return 0;
+	}
+
+	template <class  T>
+	void  MyStack<T>::pop()
+	{
+		if (topNum > 0)
+		{
+			topNum--;
+		}
+	}
+
+	template <class T>
+	int MyStack<T>::size()
+	{
+		return topNum;
+	}
+
+	template <class T>
+	bool MyStack<T>::isEmpty()
+	{
+		return topNum == 0;
+	}
 }
