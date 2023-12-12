@@ -216,6 +216,9 @@
   <ItemGroup>
     <Content Include="Files\vs_sample_simple.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="Files\vs_sample_simple.xml" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -8,10 +8,25 @@
 #include "Tree/Tree.h"
 using namespace std;
 
-    void fileToString(string fname, string data)
+// structs to store folder and file data
+struct folder
+{
+    string name;
+};
+struct file 
+{
+    string name;
+    int size;
+    string type;
+};
+
+// function to read file into string
+    string fileToString(string fname)
     {
         //load file
         ifstream fin(fname);
+        //string to store file data
+        string data = "";
 
         //check if file is open
         if(fin)
@@ -31,10 +46,10 @@ using namespace std;
         {
             cout << "Error opening file" <<endl;
         }
+        return data;
     }
 
-    //Todo: run file through stack to verify xml is valid
-
+    // function to check if xml is balanced using stack
     bool isBalanced(const string& Data) {
         // Stack to keep track of opening tags
         stack<string> tagStack;
@@ -77,22 +92,27 @@ using namespace std;
         // The XML is balanced if the stack is empty at the end
         return tagStack.empty();
     }
-    //Todo: make tree from string file and print tree to console
+
+
 
     int main()
     {
-        std::string file;
-        fileToString("vs_sample_simple.xml", file);
-        std::cout << file << endl;
+        // read file convert into string
+        string file;
+        file = fileToString("C:/Users/jackw/Documents/AlgorithmsCA/ADS_2023_CA2_JW/ADS_CA2_JackW_XMLFileReader/Files/vs_sample_simple.xml");
+        cout << file << endl;
 
-        //run file through stack to verify xml is valid
+        // run file through stack to verify xml is valid
         if (isBalanced(file)) {
             cout << "file is balanced" << endl;
-        } else {
+        } 
+        else {
             cout << "file is not balanced" << endl;
         }
 
-        
+        // create tree
+        Tree<string> tree;
+
         return 1;
     }
 

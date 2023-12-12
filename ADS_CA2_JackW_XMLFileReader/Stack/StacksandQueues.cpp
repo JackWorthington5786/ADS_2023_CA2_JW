@@ -141,32 +141,4 @@ void question5()
 		}
 	}
 }
-int main()
-{
-	/*int *data = new int[10]{1,2,3,4,5,6,7,8,9,10};
-	MyStack<int> s;
-	reverse(data, 10);
-	for (int i = 0; i < 10; i++)
-	{
-		if (i != 0)
-		{
-			cout << ", ";
-		}
-		cout << data[i];
-		s.push(data[i]);
-	}
-	cout << endl;
-
-	s.print();
-	cout << isPresent(s, 9)<<endl;
-	s.print();
-
-
-	cout << isBalanced("[({()})]") << endl;
-	question4();*/
-
-
-	question5();
-    return 0;
-}
 
