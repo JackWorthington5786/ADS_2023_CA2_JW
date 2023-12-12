@@ -93,8 +93,6 @@ struct file
         return tagStack.empty();
     }
 
-
-
     int main()
     {
         // read file convert into string
