@@ -6,9 +6,8 @@
 #include <vector>
 
 #include "Tree/Tree.h"
+using namespace std;
 
-namespace std
-{
     void fileToString(string fname, string data)
     {
         //load file
@@ -37,6 +36,7 @@ namespace std
     //Todo: run file through stack to verify xml is valid
 
     bool isBalanced(const string& Data) {
+        // Stack to keep track of opening tags
         stack<string> tagStack;
 
         size_t i = 0;
@@ -77,15 +77,13 @@ namespace std
         // The XML is balanced if the stack is empty at the end
         return tagStack.empty();
     }
-
-    
     //Todo: make tree from string file and print tree to console
-    
+
     int main()
     {
-        string file;
+        std::string file;
         fileToString("vs_sample_simple.xml", file);
-        cout << file << endl;
+        std::cout << file << endl;
 
         //run file through stack to verify xml is valid
         if (isBalanced(file)) {
@@ -97,4 +95,4 @@ namespace std
         
         return 1;
     }
-}
+
