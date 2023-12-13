@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CppUnitTest.h"
 #include "C:\Users\jackw\Documents\AlgorithmsCA\ADS_2023_CA2_JW\ADS_CA2_JackW_XMLFileReader\Tree\Tree.h"
-#include "C:\Users\jackw\Documents\AlgorithmsCA\ADS_2023_CA2_JW\ADS_CA2_JackW_XMLFileReader\Main.h"
+#include "C:\Users\jackw\Documents\AlgorithmsCA\ADS_2023_CA2_JW\ADS_CA2_JackW_XMLFileReader\Main.cpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace std;
@@ -24,8 +24,10 @@ namespace UnitTesting
 		{
 			string dataValid = "<root><a><b></b></a></root>";
 			string dataInvalid = "<root><a><b></b></root>";
-			Assert::IsTrue(isBalanced(dataValid));
-			Assert::IsFalse(isBalanced(dataInvalid));
+			bool isvalid = isBalanced(dataValid);
+			bool isinvalid = isBalanced(dataInvalid);
+			Assert::IsTrue(isvalid);
+			Assert::IsFalse(isvalid);
 			
 		}
 	};

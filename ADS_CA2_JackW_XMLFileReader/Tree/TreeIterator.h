@@ -159,7 +159,6 @@ template <class T>
 void TreeIterator<T>::removeChild()
 {
 	childIter = node->children->remove(childIter);
-	
 }
 
 template <class T>

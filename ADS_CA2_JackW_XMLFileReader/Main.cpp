@@ -265,7 +265,7 @@ void line()
 int numInFolder(Tree<file*>* tree)
 {
     int count = 0;
-    count = tree->count() - 1;
+    count = tree->count();
     return count;
 }
 
@@ -290,6 +290,10 @@ Tree<file*>* findFile(Tree<file*>* tree, string name)
                 //check if child is folder
                 node = findFile(iter->childIter.currentNode->data, name);
                 //move to next child
+                if(node!=nullptr)
+                {
+                    break;
+                }
                 iter->childForth();
             }
     }
@@ -327,37 +331,29 @@ int memUsed(Tree<file*>* tree)
     return mem;
 }
 
-void pruneTree(Tree<file*>* tree)
+// function to prune the tree to remove empty folders
+
+bool pruneTree(TreeIterator<file*> iter)
 {
-    //create queue
-    queue<Tree<file*>*> queue;
-    //add tree to queue
-    queue.push(tree);
-    //while queue is not empty
-    while (!queue.empty())
+    if(!iter.childValid() && iter.node->data->type != "file")
     {
-        //create iterator for tree
-        DListIterator<Tree<file*>*> iter = queue.front()->children->getIterator();
-        //while iterator is valid
-        while (iter.isValid())
-        {
-            //add child to queue
-            queue.push(iter.item());
-            //move to next child
-            iter.advance();
-        }
-        //if tree is empty
-        if (queue.front()->children->size() == 0)
-        {
-            //remove tree from queue
-            queue.pop();
-        }
-        else
-        {
-            //move to next tree
-            queue.pop();
-        }
+        return true;
     }
+    while (iter.childValid())
+    {
+        TreeIterator<file*> iter2(iter);
+        if(pruneTree(iter2))
+        {
+            iter.removeChild();
+        }
+        iter.childForth();
+    }
+    iter.resetIterator();
+    if(!iter.childValid() && iter.node->data->type != "file")
+    {
+        return true;
+    }
+    return false;        
 }
 
 // function to find file given a partial or complete filename (no path). Generate the path for the given file/folder (Depth first Search)
@@ -367,8 +363,8 @@ Tree<file*>* findFileDFS(Tree<file*>* tree, string name)
     Tree<file*>* node = nullptr;
     //create iterator for tree
     TreeIterator<file*>* iter = new TreeIterator<file*>(tree);
-    //check if current node name has partial or complete filename
-    if (iter->item()->name.find(name) != string::npos)
+    //check if current node is folder and name is partial or complete
+    if (iter->item()->type == "dir" && iter->item()->name.find(name) != string::npos)
     {
         //if yes return node
         return iter->node;
@@ -378,14 +374,16 @@ Tree<file*>* findFileDFS(Tree<file*>* tree, string name)
         //else check if child is valid
         while (iter->childValid())
             {
-                //check if child name has partial or complete filename
+                //check if child is folder
                 node = findFileDFS(iter->childIter.currentNode->data, name);
                 //move to next child
+                if(node!=nullptr)
+                {
+                    break;
+                }
                 iter->childForth();
             }
     }
-    //return node
-    return node;
 }
 
 // function to display the contents of a given folder. The output should also include the size of files (Not folders)
@@ -427,14 +425,13 @@ void displayFolder(Tree<file*>* tree)
 int main()
 {
     // read file convert into string
-    string data;
     string fpath = "C:/Users/jackw/Documents/AlgorithmsCA/ADS_2023_CA2_JW/ADS_CA2_JackW_XMLFileReader/Files/vs_sample_simple.xml";
     string fname = getFileName(fpath);
     
-    data = fileToString(fpath);
+    string fData = fileToString(fpath);
 
     // run file through stack to verify xml is valid
-    if (isBalanced(data)) {
+    if (isBalanced(fData)) {
         cout << "file is balanced" << endl;
     } 
     else
@@ -448,7 +445,7 @@ int main()
     f->name = fname; 
      
     Tree<file*>* tree = nullptr; 
-    treeGen(data, tree);
+    treeGen(fData, tree);
 
     //create iterator
     TreeIterator<file*> iter = TreeIterator<file*>(tree);
@@ -473,16 +470,19 @@ int main()
     
     //1. Determine the number of items (Files or folders) within a given folder directory
     string folder = ".git";
-    //cout << "Number of items in " << folder << ": " << numInFolder(findFile(tree, folder)) << endl;
+    cout << "Number of items in " << folder << ": " << numInFolder(findFile(tree, folder)) << endl;
     
     //2. Determine the amount of memory used by a given folder using a breadth first algorithm
-    //cout << "Memory used by " << folder << ": " << memUsed(findFile(tree, folder)) << " b" << endl;
+    cout << "Memory used by " << folder << ": " << memUsed(findFile(tree, folder)) << " b" << endl;
     
     //3. Prune the tree to remove empty folders
-   /* pruneTree(tree);
+
+    /*
+    pruneTree(iter);
     cout << "display" << endl;
     //display tree
-    displayTree(iter,"");*/
+    displayTree(iter,"");
+    */
     
     
     //4. Find a given file/folder given a partial or complete filename (no path). Generate the
