@@ -32,8 +32,8 @@ string toString(file* f)
     else
     {
         return "File - " + f->name +
-                 "\n\tSize: " + to_string(f->size) + " b "
-                 "\n\tType: " + f->type;
+                 " - Size: " + to_string(f->size) + " b "
+                 " - Type: " + f->type;
     }
     
 }

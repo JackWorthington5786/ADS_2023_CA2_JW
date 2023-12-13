@@ -2,15 +2,21 @@
 #include "CppUnitTest.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using namespace std;
 
 namespace UnitTesting
 {
-	TEST_CLASS(UnitTesting)
+	TEST_CLASS(Main)
 	{
 	public:
 		
-		TEST_METHOD(TestMethod1)
+		TEST_METHOD(isBalanced)
 		{
+			string ValidXMLString = "<root><child1></child1><child2></child2></root>";
+			bool expected = true;
+			bool result = isBalanced(ValidXMLString);
+
+
 		}
 	};
 }
