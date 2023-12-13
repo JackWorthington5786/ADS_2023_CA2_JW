@@ -124,20 +124,16 @@ bool isBalanced(const string& Data) {
 // function to display tree
 void displayTree(TreeIterator<file*> iter, string indent)
 {
-    cout << indent << toString(iter.node->data) ;
+    cout << indent << toString(iter.node->data) << endl ;
     if (iter.childValid())
     {
-        cout << endl;
-	
         while (iter.childValid())
         {
             TreeIterator<file*> iter2(iter.childIter.currentNode->data);
             displayTree(iter2, "\t" + indent);
             iter.childForth();
         }
-        cout <<indent<< endl;
     }
-    cout << endl;
 }
 
 // function to print using a Depth First Search
@@ -196,7 +192,7 @@ void treeGen(string data, Tree<file*>*& tree)
             if (tree == nullptr)
             {
                 //create new tree
-                tree = new Tree<file*>(f);
+                tree = new Tree<file*>(f); 
                 iter = new TreeIterator<file*>(tree);
             }
             else
@@ -209,7 +205,7 @@ void treeGen(string data, Tree<file*>*& tree)
             //move to next tag
             pos = end + 1;
         }
-        else if (tag == "/div")
+        else if (tag == "/dir")
         {
             //move up tree
             iter->up();
@@ -260,6 +256,13 @@ void treeGen(string data, Tree<file*>*& tree)
     }
 }
 
+
+// line function
+void line()
+{
+    cout << "----------------------------------------" << endl;
+}
+
 int main()
 {
     // read file convert into string
@@ -293,6 +296,8 @@ int main()
     cout << "display" << endl;
     //display tree
     displayTree(iter,"");
+    line();
+    /*
     //print using DFS
     cout << "DFS: " << endl;
     printDFS(iter);
@@ -301,6 +306,9 @@ int main()
     cout << "BFS: " << endl;
     printBFS(*tree);
     cout << endl;
+    */
+
+    //1. Determine the number of children (file) within a given folder directory (type = dir)
     
 
     return 1;

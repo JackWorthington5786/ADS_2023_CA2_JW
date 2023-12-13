@@ -13,9 +13,7 @@ namespace UnitTesting
 		TEST_METHOD(isBalanced)
 		{
 			string ValidXMLString = "<root><child1></child1><child2></child2></root>";
-			bool expected = true;
-			bool result = isBalanced(ValidXMLString);
-
+			Assert::IsEqual(true, isBalanced(ValidXMLString));
 
 		}
 	};
