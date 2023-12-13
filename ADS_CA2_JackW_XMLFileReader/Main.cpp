@@ -124,7 +124,8 @@ bool isBalanced(const string& Data) {
 // function to display tree
 void displayTree(TreeIterator<file*> iter, string indent)
 {
-    cout << indent << toString(iter.node->data) << endl ;
+        cout << indent << toString(iter.node->data) << endl;
+    
     if (iter.childValid())
     {
         while (iter.childValid())
@@ -335,21 +336,22 @@ int memUsed(Tree<file*>* tree)
 
 bool pruneTree(TreeIterator<file*> iter)
 {
-    if(!iter.childValid() && iter.node->data->type != "file")
+    if(!iter.childValid() && iter.item()->type == "dir")
     {
         return true;
     }
     while (iter.childValid())
     {
-        TreeIterator<file*> iter2(iter);
-        if(pruneTree(iter2))
+        TreeIterator<file*> child(iter);
+        child.down();
+        if(pruneTree(child))
         {
             iter.removeChild();
         }
         iter.childForth();
     }
     iter.resetIterator();
-    if(!iter.childValid() && iter.node->data->type != "file")
+    if(!iter.childValid() && iter.item()->type == "dir")
     {
         return true;
     }
@@ -357,70 +359,55 @@ bool pruneTree(TreeIterator<file*> iter)
 }
 
 // function to find file given a partial or complete filename (no path). Generate the path for the given file/folder (Depth first Search)
-Tree<file*>* findFileDFS(Tree<file*>* tree, string name)
+bool getFile(string& search, TreeIterator<file*> iter, string& path, bool isTop)
 {
-    //create child node
-    Tree<file*>* node = nullptr;
-    //create iterator for tree
-    TreeIterator<file*>* iter = new TreeIterator<file*>(tree);
-    //check if current node is folder and name is partial or complete
-    if (iter->item()->type == "dir" && iter->item()->name.find(name) != string::npos)
+    bool found = false;
+    if (iter.item()->name == search)
     {
-        //if yes return node
-        return iter->node;
+        if(isTop)
+            path += iter.item()->name;
+        else
+            path += "/" + iter.item()->name;
+        return true;
     }
-    else
+    while (iter.childValid())
     {
-        //else check if child is valid
-        while (iter->childValid())
-            {
-                //check if child is folder
-                node = findFileDFS(iter->childIter.currentNode->data, name);
-                //move to next child
-                if(node!=nullptr)
-                {
-                    break;
-                }
-                iter->childForth();
-            }
+        TreeIterator<file*> child(iter);
+        child.down();
+        found = getFile(search, child, path, false);
+        if(found)
+        {
+            if(isTop)
+                path += iter.item()->name ;
+            else
+                path += "/" + iter.item()->name ;
+            return true;
+        }
+        iter.childForth();
     }
+    return false;    
 }
 
 // function to display the contents of a given folder. The output should also include the size of files (Not folders)
-void displayFolder(Tree<file*>* tree)
+void displayFolder(TreeIterator<file*> iter, string indent)
 {
-    //create queue
-    queue<Tree<file*>*> queue;
-    //add tree to queue
-    queue.push(tree);
-    //while queue is not empty
-    while (!queue.empty())
+    if (iter.item()->type != "dir")
     {
-        //create iterator for tree
-        DListIterator<Tree<file*>*> iter = queue.front()->children->getIterator();
-        //while iterator is valid
-        while (iter.isValid())
+        //cout << indent << toString(iter.node->data) << endl ;
+        //display size
+        cout << indent << "Size: " << getSize(iter.node->data) << " b" << endl;
+    }
+    if (iter.childValid()) 
+    {
+        while (iter.childValid())
         {
-            //add child to queue
-            queue.push(iter.item());
-            //move to next child
-            iter.advance();
-        }
-        //if tree is empty
-        if (queue.front()->children->size() == 0)
-        {
-            //remove tree from queue
-            queue.pop();
-        }
-        else
-        {
-            //display tree
-            cout << toString(queue.front()->data) << endl;
-            //move to next tree
-            queue.pop();
+            TreeIterator<file*> iter2(iter.childIter.currentNode->data);
+            displayFolder(iter2, "\t" + indent);
+            iter.childForth();
         }
     }
 }
+
 
 int main()
 {
@@ -454,7 +441,6 @@ int main()
     cout << "display" << endl;
     //display tree
     displayTree(iter,"");
-    line();
 
     /*
     //print using DFS
@@ -467,33 +453,36 @@ int main()
     cout << endl;
     */
     
-    
+    line();
     //1. Determine the number of items (Files or folders) within a given folder directory
     string folder = ".git";
     cout << "Number of items in " << folder << ": " << numInFolder(findFile(tree, folder)) << endl;
-    
+
+    line();
     //2. Determine the amount of memory used by a given folder using a breadth first algorithm
     cout << "Memory used by " << folder << ": " << memUsed(findFile(tree, folder)) << " b" << endl;
-    
-    //3. Prune the tree to remove empty folders
 
-    /*
+    line();
+    //3. Prune the tree to remove empty folders
     pruneTree(iter);
-    cout << "display" << endl;
     //display tree
     displayTree(iter,"");
-    */
     
-    
+    line();
     //4. Find a given file/folder given a partial or complete filename (no path). Generate the
     //path for the given file/folder (Depth first Search)
-    //string partialFile = "des";
-    //cout << "File found: " << findFileDFS(tree, partialFile)->data->name << endl;
+    string file = "description";
+    cout << "find file: " << file << endl;
+    string path = "";
+    getFile(file, iter, path, false);
+    cout << "path: " << path << endl;
     
-    
+
+    line();
     //5. Display the contents of a given folder.
     //The output should also include the size of files (Not folders)
-    //displayFolder(findFile(tree, folder));
+    cout << "display folder :" << folder << " file sizes" << endl;
+    displayFolder(findFile(tree, folder), "");
     
     return 1;
 }
