@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <queue>
 #include <stack>
 #include <vector>
 
@@ -16,6 +17,27 @@ struct file
     int size;
     string type;
 };
+//getters
+string getName(file* f) { return f->name; }
+int getSize(file* f) { return f->size; }
+string getType(file* f) { return f->type; }
+//to string
+string toString(file* f)
+{
+    //if type is dir
+    if (f->type == "dir")
+    {
+        return "Folder - " + f->name;
+    }
+    else
+    {
+        return "File - " + f->name +
+                 "\n\tSize: " + to_string(f->size) + " b "
+                 "\n\tType: " + f->type;
+    }
+    
+}
+
 //function the gets file name from path
 string getFileName(string path)
 {
@@ -26,35 +48,34 @@ string getFileName(string path)
     return name;
 }
 
-
 // function to read file into string
-    string fileToString(string fname)
-    {
-        //load file
-        ifstream fin(fname);
-        //string to store file data
-        string data = "";
+string fileToString(string fname)
+{
+    //load file
+    ifstream fin(fname);
+    //string to store file data
+    string data = "";
 
-        //check if file is open
-        if(fin)
+    //check if file is open
+    if(fin)
+    {
+        //read file into string
+        string line;
+        //while there is a line to read
+        while(getline(fin, line))
         {
-            //read file into string
-            string line;
-            //while there is a line to read
-            while(getline(fin, line))
-            {
-                //add line to data
-                data += line;
-            }
-            fin.close();
+            //add line to data
+            data += line;
         }
-        //if file is not open
-        else
-        {
-            cout << "Error opening file" <<endl;
-        }
-        return data;
+        fin.close();
     }
+    //if file is not open
+    else
+    {
+        cout << "Error opening file" <<endl;
+    }
+    return data;
+}
 
 // function to check if xml is balanced using stack
 bool isBalanced(const string& Data) {
@@ -100,10 +121,56 @@ bool isBalanced(const string& Data) {
         return tagStack.empty();
     }
 
-<<<<<<< Updated upstream
-    int main()
-=======
-void treeGen(string data, Tree<file*>* tree)
+// function to display tree
+void displayTree(TreeIterator<file*> iter, string indent)
+{
+    cout << indent << toString(iter.node->data) ;
+    if (iter.childValid())
+    {
+        cout << endl;
+	
+        while (iter.childValid())
+        {
+            TreeIterator<file*> iter2(iter.childIter.currentNode->data);
+            displayTree(iter2, "\t" + indent);
+            iter.childForth();
+        }
+        cout <<indent<< endl;
+    }
+    cout << endl;
+}
+
+// function to print using a Depth First Search
+void printDFS(TreeIterator<file*> iter)
+{
+    while (iter.childValid())
+    {
+        TreeIterator<file*> iter2(iter.childIter.currentNode->data);
+        printDFS(iter2);
+        iter.childForth();
+    }
+    cout << toString( iter.item()) << "\n";
+}
+// function to print using a Breadth first Search
+void printBFS(Tree<file*> tree)
+{
+    queue<Tree<file*>> queue;
+    queue.push(tree);
+    while (!queue.empty())
+    {
+        DListIterator<Tree<file*>*> iter = queue.front().children->getIterator();
+        while (iter.isValid())
+        {
+            queue.push(*iter.item());
+            iter.advance();
+        }
+        cout << toString(queue.front().data) << "\n";
+        queue.pop();
+    }
+}
+
+// function to generate tree
+void treeGen(string data, Tree<file*>*& tree)
 {
     file* f = nullptr;
     TreeIterator<file*>* iter = nullptr;
@@ -111,16 +178,15 @@ void treeGen(string data, Tree<file*>* tree)
     
     //while there is a tag to read
     while (pos < data.length())
->>>>>>> Stashed changes
     {
         //find next tag
-        int end = data.find('>', pos);
         pos = data.find('<', pos);
+        int end = data.find('>', pos);
         //get tag
         string tag = data.substr(pos + 1, end - pos - 1);
 
         //if tag is div
-        if (tag == "div")
+        if (tag == "dir")
         {
             //create new file
             f = new file();
@@ -166,14 +232,14 @@ void treeGen(string data, Tree<file*>* tree)
             string name = data.substr(end + 1, nextOpen - end - 1);
             f->name = name;
             //move to next tag
-            pos = data.find('>', nextOpen);
+            pos = data.find('>', nextOpen) - 1;
         }
         else if (tag == "length")
         {
             //find next tag
             int nextOpen = data.find('<', end);
             //get & set size
-            string size = data.substr(end + 1, nextOpen - end - 1);
+            string size = data.substr(end + 1, nextOpen - end);
             f->size = stoi(size);
             //move to next tag
             pos = data.find('>', nextOpen);
@@ -191,10 +257,8 @@ void treeGen(string data, Tree<file*>* tree)
         {
             pos = end + 1;
         }
-        cout << tag << endl;
     }
 }
-
 
 int main()
 {
@@ -204,14 +268,13 @@ int main()
     string fname = getFileName(fpath);
     
     data = fileToString(fpath);
-    cout << data << endl;
 
     // run file through stack to verify xml is valid
     if (isBalanced(data)) {
         cout << "file is balanced" << endl;
-       
     } 
-    else {
+    else
+    {
         cout << "file is not balanced" << endl;
     }
 
@@ -221,8 +284,24 @@ int main()
     f->name = fname; 
      
     Tree<file*>* tree = nullptr; 
-    treeGen(data, tree); 
+    treeGen(data, tree);
 
+    //create iterator
+    TreeIterator<file*> iter = TreeIterator<file*>(tree);
+
+    
+    cout << "display" << endl;
+    //display tree
+    displayTree(iter,"");
+    //print using DFS
+    cout << "DFS: " << endl;
+    printDFS(iter);
+    cout << endl;
+    //print using BFS
+    cout << "BFS: " << endl;
+    printBFS(*tree);
+    cout << endl;
+    
 
     return 1;
 }
