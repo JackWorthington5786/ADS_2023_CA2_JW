@@ -179,3 +179,4 @@ T TreeIterator<T>::item()
 {
 	return node->data;
 }
+//

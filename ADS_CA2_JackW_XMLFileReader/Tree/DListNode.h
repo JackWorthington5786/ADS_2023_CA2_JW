@@ -7,7 +7,6 @@ public:
 	T data;
 	DListNode<T> *next;
 	DListNode<T> *previous;
-
 	DListNode(T item);
 	DListNode(DListNode<T> &item);
 	void insertBefore(T item);
