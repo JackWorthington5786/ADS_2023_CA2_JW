@@ -473,24 +473,30 @@ int main()
     */
     
     line();
-    //1. Determine the number of items (Files or folders) within a given folder directory
-    string folder = ".git";
+    cout << "1. Determine the number of items (Files or folders) within a given folder directory" << endl;
+    string folder = "";
+    cout << "Enter folder name: " << endl;
+    cin >> folder;
     cout << "Number of items in " << folder << ": " << numInFolder(findFile(tree, folder)) << endl;
 
     line();
-    //2. Determine the amount of memory used by a given folder using a breadth first algorithm
+    cout << "2. Determine the amount of memory used by a given folder using a breadth first algorithm" << endl;
+    cout << "Enter folder name: " << endl;
+    cin >> folder;
     cout << "Memory used by " << folder << ": " << memUsed(findFile(tree, folder)) << " b" << endl;
 
     line();
-    //3. Prune the tree to remove empty folders
+    cout << "3. Prune the tree to remove empty folders" << endl;
     pruneTree(iter);
     //display tree
     displayTree(iter,"");
     
     line();
-    //4. Find a given file/folder given a partial or complete filename (no path). Generate the
+    cout << "4. Find a given file/folder given a partial or complete filename (no path). Generate the" << endl;
     //path for the given file/folder (Depth first Search)
-    string file = "description";
+    string file = "";
+    cout << "Enter file name: " << endl;
+    cin >> file;
     cout << "find file: " << file << endl;
     string path = "";
     getFile(file, iter, path, false);
@@ -498,8 +504,9 @@ int main()
     
 
     line();
-    //5. Display the contents of a given folder.
-    //The output should also include the size of files (Not folders)
+    cout << "5. Display the contents of a given folder. The output should also include the size of files (Not folders) "<< endl;
+    cout << "Enter folder name: " << endl;
+    cin >> folder;
     cout << "display folder :" << folder << " file sizes" << endl;
     displayFolder(findFile(tree, folder), "");
     
