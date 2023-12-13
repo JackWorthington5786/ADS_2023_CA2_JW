@@ -411,9 +411,28 @@ void displayFolder(TreeIterator<file*> iter, string indent)
 
 int main()
 {
-    // read file convert into string
-    string fpath = "C:/Users/jackw/Documents/AlgorithmsCA/ADS_2023_CA2_JW/ADS_CA2_JackW_XMLFileReader/Files/vs_sample_simple.xml";
-    string fname = getFileName(fpath);
+    int choice = 0;
+    //ask what file to read
+    cout << "Chose file to read: " << endl;
+    cout << "1. vs_sample.xml" << endl;
+    cout << "2. vs_sample_simple.xml" << endl;
+    cin >> choice;
+    string fpath = "";
+    if (choice == 1)
+    {
+        fpath = "C:/Users/jackw/Documents/AlgorithmsCA/ADS_2023_CA2_JW/ADS_CA2_JackW_XMLFileReader/Files/vs_sample.xml";
+    }
+    else if (choice == 2)
+    {
+        fpath = "C:/Users/jackw/Documents/AlgorithmsCA/ADS_2023_CA2_JW/ADS_CA2_JackW_XMLFileReader/Files/vs_sample_simple.xml";
+    }
+    else
+    {
+        cout << "Invalid choice" << endl;
+        return 0;
+    }
+    
+     string fname = getFileName(fpath);
     
     string fData = fileToString(fpath);
 

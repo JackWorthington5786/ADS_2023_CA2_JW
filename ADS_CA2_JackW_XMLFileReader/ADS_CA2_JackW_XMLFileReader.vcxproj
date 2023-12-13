@@ -214,6 +214,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Files\vs_sample.xml" />
     <Content Include="Files\vs_sample_simple.xml" />
   </ItemGroup>
   <ItemGroup>
