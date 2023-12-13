@@ -218,6 +218,8 @@
     <Content Include="Files\vs_sample_simple.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Xml Include="..\..\..\..\OneDrive\Escritorio\vs_sample.xml" />
+    <Xml Include="Files\test.xml" />
     <Xml Include="Files\vs_sample_simple.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

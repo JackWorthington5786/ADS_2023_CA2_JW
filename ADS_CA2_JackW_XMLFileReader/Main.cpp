@@ -122,7 +122,7 @@ bool isBalanced(const string& Data) {
     }
 
 // function to display tree
-void displayTree(TreeIterator<file*> iter, string indent)
+bool displayTree(TreeIterator<file*> iter, string indent)
 {
         cout << indent << toString(iter.node->data) << endl;
     
@@ -134,7 +134,9 @@ void displayTree(TreeIterator<file*> iter, string indent)
             displayTree(iter2, "\t" + indent);
             iter.childForth();
         }
+        return true;
     }
+    return false;
 }
 
 // function to print using a Depth First Search

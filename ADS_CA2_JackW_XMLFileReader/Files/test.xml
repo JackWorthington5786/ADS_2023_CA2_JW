@@ -1,0 +1,35 @@
+<dir>
+  <name>FolderA name</name>
+	<dir>
+	  <name>Subfolder1 name</name>
+		<file>
+		  <name>FileA</name>
+		  <length>10 b</length>
+		  <type>gif</type>
+		</file>
+		<file>
+		  <name>FileC</name>
+		  <length>20 b</length>
+		  <type>mp3</type>
+		</file>
+		<file>
+		  <name>FileC</name>
+		  <length>30 b</length>
+		  <type>mp4</type>
+		</file>
+	</dir>
+	<dir>
+		<name>Subfolder2 name</name>
+		<file>
+			<name>FileD</name>
+			<length>40 b</length>
+			<type>php</type>
+		</file>
+		<file>
+			<name>FileE</name>
+			<length>50 b</length>
+			<type>wav</type>
+		</file>
+	</dir>
+</dir>
+

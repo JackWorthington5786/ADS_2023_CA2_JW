@@ -52,5 +52,11 @@
     <Xml Include="Files\vs_sample_simple.xml">
       <Filter>Resource Files</Filter>
     </Xml>
+    <Xml Include="..\..\..\..\OneDrive\Escritorio\vs_sample.xml">
+      <Filter>Resource Files</Filter>
+    </Xml>
+    <Xml Include="Files\test.xml">
+      <Filter>Resource Files</Filter>
+    </Xml>
   </ItemGroup>
 </Project>
